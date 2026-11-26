@@ -21,7 +21,7 @@ try:
 
     client = Groq(api_key=api_key)
 
-    st.success("API connection successful!")
+    st.write("API connection successful!")
 
 except (KeyError, FileNotFoundError, StreamlitSecretNotFoundError):
     st.error(
@@ -38,8 +38,13 @@ role = st.selectbox("Select Job Role",[
                     "Software Engineer",
                     "HR Executive"
                     ])
+diff = st.selectbox("select Difficulty level",[
+                    "Beginer Level",
+                    "Intermediate",
+                    "Advanced"
+])
 if st.button("Generate Interview Questions"):
-    prompt="Generate 5 Interview questions for the role of " + role
+    prompt="Generate 5 Interview questions for the role of " + role +diff
     response = client.chat.completions.create(
     model="openai/gpt-oss-120b",
     messages=[
@@ -48,3 +53,5 @@ if st.button("Generate Interview Questions"):
     )
     output = response.choices[0].message.content
     st.write(output)
+
+    
